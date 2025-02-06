@@ -1,0 +1,62 @@
+<template>
+    <lightning-card title="Products" icon-name="standard:products">
+        <div class="slds-p-around_medium">
+            <lightning-input 
+                type="search" 
+                label="Search Products" 
+                onchange={handleSearchChange}>
+            </lightning-input>
+
+            <!-- Brand Filter Picklist -->
+            <div class="slds-m-vertical_medium">
+                <lightning-combobox 
+                    name="brand"
+                    label="Brand"
+                    value={selectedBrand}
+                    options={brandOptions}
+                    onchange={handleBrandChange}>
+                </lightning-combobox>
+            </div>
+
+            <!-- Category Filter Picklist -->
+            <div class="slds-m-vertical_medium">
+                <lightning-combobox 
+                    name="category"
+                    label="Category"
+                    value={selectedCategory}
+                    options={categoryOptions}
+                    onchange={handleCategoryChange}>
+                </lightning-combobox>
+            </div>
+
+            <!-- Total Products and Refresh Button -->
+            <div class="slds-grid slds-grid_align-spread slds-m-top_medium">
+                <p class="slds-text-heading_medium slds-m-right_medium">
+                    Total Products in Stock: {totalStock}
+                </p>
+                <lightning-button label="Refresh Products" onclick={handleRefresh} variant="brand"></lightning-button>
+            </div>
+
+            <!-- Product Thumbnails Grid -->
+            <div class="slds-grid slds-wrap slds-m-top_medium">
+                <template for:each={products} for:item="product">
+                    <div class="slds-size_1-of-4 slds-p-around_small" key={product.Id}>
+                        <lightning-card class="product-card" title={product.Name__c}>
+                            <div class="slds-p-around_small">
+                                <!-- Clickable Product Card Image or Name -->
+                                <a href={product.productUrl} target="_blank">
+                                    <img src={product.ImageUrl__c} alt={product.Name__c} class="product-image"/>
+                                    <div class="slds-text-heading_small">{product.Name__c}</div>
+                                </a>
+                                <p><strong>Brand:</strong> {product.Brand__c}</p>
+                                <p><strong>Price:</strong> ${product.Price__c}</p>
+                                <p><strong>Stock:</strong> {product.Stock__c}</p>
+                                <p><strong>Total Stock Value:</strong> ${product.totalStockValue}</p>
+                            </div>
+                        </lightning-card>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>
